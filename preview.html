@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ransomware Demo</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: black;
+        color: red;
+        text-align: center;
+    }
+
+    .container {
+        padding: 40px;
+    }
+
+    h1 {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 18px;
+        color: #ff4d4d;
+    }
+
+    .timer {
+        font-size: 30px;
+        margin: 20px 0;
+        color: yellow;
+    }
+
+    .progress {
+        width: 80%;
+        height: 25px;
+        background: #333;
+        margin: 20px auto;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: red;
+    }
+
+    .button {
+        margin-top: 30px;
+        padding: 15px 25px;
+        background: green;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+
+    .safe {
+        margin-top: 30px;
+        color: lightgreen;
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⚠️ Your Files Have Been Encrypted!</h1>
+
+    <p>Your important files have been encrypted using military-grade encryption.</p>
+    <p>To restore access, pay <b>0.05 Bitcoin</b> within:</p>
+
+    <div class="timer" id="timer">24:00:00</div>
+
+    <div class="progress">
+        <div class="progress-bar" id="bar"></div>
+    </div>
+    <p>Encrypting files... <span id="percent">0%</span></p>
+
+    <button class="button" onclick="showSafe()">Pay & Decrypt</button>
+
+    <div class="safe" id="safeMessage">
+        <h2>😄 Relax! This is just a demo!</h2>
+        <p>You just experienced how ransomware looks.</p>
+        <p><b>Always be careful with suspicious links!</b></p>
+    </div>
+</div>
+
+<script>
+    // Timer
+    let time = 24 * 60 * 60;
+    setInterval(() => {
+        let h = Math.floor(time / 3600);
+        let m = Math.floor((time % 3600) / 60);
+        let s = time % 60;
+        document.getElementById("timer").innerText =
+            `${h}:${m}:${s}`;
+        time--;
+    }, 1000);
+
+    // Progress bar
+    let progress = 0;
+    setInterval(() => {
+        if (progress < 100) {
+            progress++;
+            document.getElementById("bar").style.width = progress + "%";
+            document.getElementById("percent").innerText = progress + "%";
+        }
+    }, 80);
+
+    // Reveal message
+    function showSafe() {
+        document.getElementById("safeMessage").style.display = "block";
+    }
+</script>
+
+</body>
+</html>
