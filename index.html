@@ -12,6 +12,12 @@
         background: black;
         color: red;
         text-align: center;
+        animation: glitchBg 1s infinite alternate;
+    }
+
+    @keyframes glitchBg {
+        0% { background-color: black; }
+        100% { background-color: #050000; }
     }
 
     .container {
@@ -23,16 +29,21 @@
     h1 {
         font-size: 24px;
         margin-bottom: 15px;
+        animation: flicker 1s infinite;
+    }
+
+    @keyframes flicker {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
     }
 
     p {
         font-size: 15px;
         color: #ff4d4d;
-        line-height: 1.5;
     }
 
     .timer {
-        font-size: 24px;
+        font-size: 26px;
         margin: 15px 0;
         color: yellow;
     }
@@ -50,11 +61,18 @@
         height: 100%;
         width: 0%;
         background: red;
+        animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+        0% { background: red; }
+        50% { background: darkred; }
+        100% { background: red; }
     }
 
     .button {
         margin-top: 20px;
-        padding: 12px;
+        padding: 14px;
         width: 100%;
         background: green;
         color: white;
@@ -69,14 +87,11 @@
         display: none;
     }
 
-    /* Kichik ekranlar uchun */
-    @media (max-width: 400px) {
-        h1 {
-            font-size: 20px;
-        }
-        .timer {
-            font-size: 20px;
-        }
+    .warning {
+        color: white;
+        margin-top: 10px;
+        font-size: 13px;
+        opacity: 0.7;
     }
 </style>
 </head>
@@ -86,8 +101,8 @@
 <div class="container">
     <h1>⚠️ Your Files Have Been Encrypted!</h1>
 
-    <p>Your important files have been encrypted using military-grade encryption.</p>
-    <p>Pay <b>0.05 Bitcoin</b> within:</p>
+    <p>All your files are locked with military encryption.</p>
+    <p>Pay <b>0.05 BTC</b> within:</p>
 
     <div class="timer" id="timer">24:00:00</div>
 
@@ -99,14 +114,26 @@
     <button class="button" onclick="showSafe()">Pay & Decrypt</button>
 
     <div class="safe" id="safeMessage">
-        <h2>😄 Relax! This is just a demo!</h2>
-        <p>You just learned how ransomware works.</p>
-        <p><b>Don't click suspicious links!</b></p>
+        <h2>😄 Bu faqat demo!</h2>
+        <p>Siz ransomware qanday ishlashini ko‘rdingiz.</p>
+        <p><b>Shubhali linklarga bosmang!</b></p>
     </div>
+
+    <p class="warning">Do not close this page...</p>
 </div>
 
+<!-- sound -->
+<audio id="beep" loop>
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+</audio>
+
 <script>
-    // Timer
+    // 🔊 Sound (user interactiondan keyin ishlaydi)
+    document.body.addEventListener("click", () => {
+        document.getElementById("beep").play();
+    }, { once: true });
+
+    // ⏳ Timer
     let time = 24 * 60 * 60;
     setInterval(() => {
         let h = Math.floor(time / 3600);
@@ -119,7 +146,7 @@
         if (time > 0) time--;
     }, 1000);
 
-    // Progress
+    // 📊 Progress
     let progress = 0;
     setInterval(() => {
         if (progress < 100) {
@@ -127,7 +154,14 @@
             document.getElementById("bar").style.width = progress + "%";
             document.getElementById("percent").innerText = progress + "%";
         }
-    }, 100);
+    }, 80);
+
+    // 📳 Vibration (faqat mobile)
+    if (navigator.vibrate) {
+        setInterval(() => {
+            navigator.vibrate(200);
+        }, 3000);
+    }
 
     function showSafe() {
         document.getElementById("safeMessage").style.display = "block";
